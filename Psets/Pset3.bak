@@ -1,0 +1,77 @@
+#lang racket
+(define tm-reverse
+  (list
+   (ins 'q1 0 'q2 0 'R)
+   (ins 'q1 1 'q3 1 'R)
+   (ins 'q1 'a 'q1 'a 'R)
+   (ins 'q1 'c 'q1 'c 'R)
+   (ins 'q1 'b 'q4 'b 'L)
+   
+   (ins 'q2 0 'q2 0 'R)
+   (ins 'q2 1 'q2 1 'R)
+   (ins 'q2 'b 'q4 'b 'L)
+   (ins 'q2 'a 'q4 'a 'L)
+   (ins 'q2 'c 'q4 'c 'L)
+   
+   (ins 'q3 0 'q3 0 'R)
+   (ins 'q3 1 'q3 1 'R)
+   (ins 'q3 'b 'q5 'b 'L)
+   (ins 'q3 'a 'q5 'a 'L)
+   (ins 'q3 'c 'q5 'c 'L)
+   
+   (ins 'q4 0 'q6 'a 'L)
+   (ins 'q4 1 'q7 'a 'L)
+   (ins 'q4 'a 'q4 0 'L)
+   (ins 'q4 'c 'q4 1 'L)
+   (ins 'q4 'b 'q10 'b 'R)
+   
+   (ins 'q5 0 'q6 'c 'L)
+   (ins 'q5 1 'q7 'c 'L)
+   
+   (ins 'q6 0 'q6 0 'L)
+   (ins 'q6 1 'q6 1 'L)
+   (ins 'q6 'b 'q8 'b 'R)
+   (ins 'q6 'a 'q8 'a 'R)
+   (ins 'q6 'c 'q8 'c 'R)
+   
+   (ins 'q7 0 'q7 0 'L)
+   (ins 'q7 1 'q7 1 'L)
+   (ins 'q7 'b 'q9 'b 'R)
+   (ins 'q7 'a 'q9 'a 'R)
+   (ins 'q7 'c 'q9 'c 'R)
+
+   (ins 'q8 0 'q1 'a 'R)
+   (ins 'q8 1 'q1 'a 'R)
+   (ins 'q8 'a 'q1 'a 'R)
+   (ins 'q8 'c 'q1 'c 'R)
+   
+   (ins 'q9 0 'q1 'c 'R)
+   (ins 'q9 1 'q1 'c 'R)
+   (ins 'q9 'a 'q1 'a 'R)
+   (ins 'q9 'c 'q1 'c 'R)
+  ))
+
+(define tm-reverse
+  (list
+   (ins 'q1 'c 'q1 'c 'R)
+   (ins 'q1 'a 'q1 'a 'R)
+   (ins 'q1 'r 'q1 'r 'R)
+   (ins 'q1 0 'q2 'r 'L)
+   (ins 'q1 1 'q3 'r 'L)
+   (ins 'q1 'b 'q4 'b 'L)
+   
+   (ins 'q2 'r 'q2 'r 'L)
+   (ins 'q2 'a 'q2 'a 'L)
+   (ins 'q2 'c 'q2 'c 'L)
+   (ins 'q2 'b 'q1 'a 'R)
+
+   (ins 'q3 'r 'q3 'r 'L)
+   (ins 'q3 'a 'q3 'a 'L)
+   (ins 'q3 'c 'q3 'c 'L)
+   (ins 'q3 'b 'q1 'c 'R)
+
+   (ins 'q4 'r 'q4 'b 'L)
+   (ins 'q4 'a 'q4 0 'L)
+   (ins 'q4 'c 'q4 1 'L)
+   (ins 'q4 'b 'q5 'b 'R)
+   ))

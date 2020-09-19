@@ -1,0 +1,3 @@
+#lang racket
+
+(print "Pelma is weird")

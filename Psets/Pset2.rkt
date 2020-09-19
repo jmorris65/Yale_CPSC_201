@@ -1,0 +1,97 @@
+#lang racket
+(require racket/trace)
+
+(define (depth tree)
+  (cond
+    [(empty? tree) 0]
+    [(and (empty? (cdr tree)) (not (list? (car tree)))) 1]
+    [(list? (car tree)) (+ 1 (depth (car tree)))]
+    [else (depth (cdr tree))]))
+
+(define (sum tree)
+  (cond
+    [(empty? tree) 0]
+    [(list? (car tree)) (+ (sum (car tree)) (sum (cdr tree)))]
+    [(number? (car tree)) (+ (car tree) (sum (cdr tree)))]
+    [else (sum (cdr tree))]))
+
+(define (numbers? lst)
+  (cond
+    [(empty? lst) #f]
+    [(list? (car lst)) (if (numbers? (car lst)) #t (numbers? (cdr lst)))]
+    [(number? (car lst)) #t]
+    [else (numbers? (cdr lst))]))
+
+(define (prod tree)
+  (cond
+    [(not (numbers? tree)) 'none]
+    [(list? (car tree)) (cond
+                          [(and (numbers? (car tree)) (numbers? (cdr tree))) (* (prod (car tree)) (prod (cdr tree)))]
+                          [(numbers? (car tree)) (prod (car tree))]
+                          [else (prod (cdr tree))])]
+    [(and (number? (car tree)) (numbers? (cdr tree))) (* (car tree) (prod (cdr tree)))]
+    [(number? (car tree)) (car tree)]
+    [else (prod (cdr tree))]))
+
+
+(define (count-if pred tree)
+  (cond
+    [(empty? tree) 0]
+    [(list? (car tree)) (count-if pred (car tree))]
+    [(pred (car tree)) (+ 1 (count-if pred (cdr tree)))]
+    [else (count-if pred (cdr tree))])
+  )
+
+(define (average tree)
+  (cond
+    [(not (numbers? tree)) 'NA]
+    [else (/ (sum tree) (count-if number? tree))])
+  )
+
+(define (types tree)
+  (cond
+    [(empty? tree) '()]
+    [(list? (car tree)) (append (types (car tree)) (types (cdr tree)))]
+    [(integer? (car tree)) (remove-duplicates (append (list 'integer) (types (cdr tree))))]
+    [(char? (car tree)) (remove-duplicates (append (list 'character) (types (cdr tree))))]
+    [(string? (car tree)) (remove-duplicates (append (list 'string) (types (cdr tree))))]
+    [(flonum? (car tree)) (remove-duplicates (append (list 'flonum) (types (cdr tree))))]
+    [(symbol? (car tree)) (remove-duplicates (append (list 'symbol) (types (cdr tree))))]
+    [(rational? (car tree)) (remove-duplicates (append (list 'rational) (types (cdr tree))))]))
+
+(define (tree-replace old new tree)
+  (cond
+    [(empty? tree) '()]
+    [(equal? old (car tree)) (append (list new) (tree-replace old new (cdr tree)))]
+    [(list? (car tree)) (cons (tree-replace old new (car tree)) (tree-replace old new (cdr tree)))]
+    [else (append (list (car tree)) (tree-replace old new (cdr tree)))])
+  )
+
+(define (tree-min tree)
+  (cond
+    [(not (numbers? tree)) '()]
+    [(list? (car tree)) (cond
+                          [(and (numbers? (car tree)) (numbers? (cdr tree)))
+                           (if (< (tree-min (car tree)) (tree-min (cdr tree)))
+                               (tree-min (car tree))
+                               (tree-min (cdr tree)))]
+                          [(numbers? (car tree)) (tree-min (car tree))]
+                          [else (tree-min (car tree))])]
+   [(and (number? (car tree)) (numbers? (cdr tree)))
+    (if (< (car tree) (tree-min (cdr tree))) (car tree) (tree-min (cdr tree)))]
+   [(number? (car tree)) (car tree)]
+   [else (tree-min (cdr tree))])
+   )
+
+(define (count-leaves tree)
+  (cond
+    [(empty? tree) 0]
+    [(list? (car tree)) (+ (count-leaves (car tree)) (count-leaves (cdr tree)))]
+    [else (+ 1 (count-leaves (cdr tree)))])
+  )
+
+(define (map-tree proc tree)
+  (cond
+    [(empty? tree) '()]
+    [(list? (car tree)) (cons (map-tree proc (car tree)) (map-tree proc (cdr tree)))]
+    [else (append (list (proc (car tree))) (map-tree proc (cdr tree)))]))

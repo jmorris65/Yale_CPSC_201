@@ -1,0 +1,17 @@
+#lang racket
+(require racket/trace)
+
+(define (tail lst [newlst '()])
+  (if
+    (empty? lst) newlst
+    (tail (cdr lst) (cons (car lst) newlst))))
+
+(trace tail)
+
+
+(define (not-tail lst)
+  (if
+    (empty? lst) '()
+    (append (not-tail (cdr lst)) (list (car lst)))))
+
+(trace not-tail)
